@@ -1,4 +1,4 @@
-name: Deploy Rails API
+name: Deploy Rails API Application
 
 on:
   push:
