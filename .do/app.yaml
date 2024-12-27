@@ -1,0 +1,31 @@
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+features:
+  - buildpack-stack=ubuntu-22
+ingress:
+  rules:
+    - component:
+        name: livewell-api
+      match:
+        path:
+          prefix: /
+name: livewell
+region: lon
+services:
+  - environment_slug: ruby-on-rails
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: jones-agyemang/livewell-api
+    http_port: 8080 # Matches the Rails server command
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb
+    name: livewell-api
+    run_command: ./bin/rails s -p 8080
+    source_dir: /
+    envs:
+      - key: DATABASE_URL
+        value: "${{ secrets.DATABASE_URL }}"
+      - key: RAILS_ENV
+        value: production
