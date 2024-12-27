@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unitary_amount: 1
+  method: MyString
+  transaction_id: MyString
+  transaction_date: 2024-12-23
+  reason: MyString
+  resident: one
+
+two:
+  unitary_amount: 1
+  method: MyString
+  transaction_id: MyString
+  transaction_date: 2024-12-23
+  reason: MyString
+  resident: two

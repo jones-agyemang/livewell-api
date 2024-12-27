@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  move_in_date: 2024-12-23
+  duration_of_stay: MyString
+  special_requirements: MyText
+  resident: one
+
+two:
+  move_in_date: 2024-12-23
+  duration_of_stay: MyString
+  special_requirements: MyText
+  resident: two
