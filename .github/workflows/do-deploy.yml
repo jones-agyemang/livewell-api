@@ -42,7 +42,8 @@ jobs:
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
-        echo "RAILS_MASTER_KEY: $RAILS_MASTER_KEY"
+        echo $RAILS_MASTER_KEY > /tmp/master_key_debug
+        cat /tmp/master_key_debug
 
     # Step 6: Setup database
     - name: Setup database
