@@ -10,6 +10,8 @@ permissions:
 jobs:
   deploy-api:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
 
     steps:
     # Step 1: Checkout the repository
