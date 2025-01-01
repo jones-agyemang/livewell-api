@@ -45,6 +45,12 @@ jobs:
         echo $RAILS_MASTER_KEY > /tmp/master_key_debug
         cat /tmp/master_key_debug
 
+    - name: Print RAILS_MASTER_KEY
+      env:
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      run: |
+        echo "RAILS_MASTER_KEY: $RAILS_MASTER_KEY" | sed 's/./*/g'
+
     # Step 6: Setup database
     - name: Setup database
       env:
