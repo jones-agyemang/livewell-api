@@ -11,18 +11,30 @@ jobs:
   deploy-api:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:14
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: livewell-api-db-prod
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
-    # Step 1: Checkout the repository
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Step 2: Setup Ruby
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.2 # Update to your Ruby version
+        ruby-version: 3.2
 
-    # Step 3: Cache Bundler gems
     - name: Cache Bundler gems
       uses: actions/cache@v3
       with:
@@ -31,36 +43,29 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-bundler-
 
-    # Step 4: Install dependencies
     - name: Install dependencies
       run: |
         gem install bundler
         bundle install --path vendor/bundle
 
-    # Step 5: Debug - Print RAILS_MASTER_KEY
-    - name: Print RAILS_MASTER_KEY
-      env:
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+    - name: Install PostgreSQL client
+      run: sudo apt-get update && sudo apt-get install -y postgresql-client
+  
+    - name: Wait for PostgreSQL to be ready
       run: |
-        echo $RAILS_MASTER_KEY > /tmp/master_key_debug
-        cat /tmp/master_key_debug
+        until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
+          echo "Waiting for PostgreSQL..."
+          sleep 1
+        done
 
-    - name: Print RAILS_MASTER_KEY
-      env:
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      run: |
-        echo "RAILS_MASTER_KEY: $RAILS_MASTER_KEY" | sed 's/./*/g'
-
-    # Step 6: Setup database
-    - name: Setup database
+    - name: Run database migrations
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
         RAILS_ENV=production bundle exec rake db:migrate
 
-    # Step 7: Deploy the app using DigitalOcean
     - name: Deploy the app
       uses: digitalocean/app_action/deploy@v2
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-        app_spec_location: .do/app.yaml
+        app_spec_location: .do/app.yaml  
