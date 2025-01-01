@@ -10,8 +10,6 @@ permissions:
 jobs:
   deploy-api:
     runs-on: ubuntu-latest
-    env:
-      SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
 
     steps:
     # Step 1: Checkout the repository
@@ -32,6 +30,8 @@ jobs:
 
     # Step 4: Setup database (if necessary)
     - name: Setup database
+      env:
+        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       run: |
         RAILS_ENV=production bundle exec rake db:migrate
 
