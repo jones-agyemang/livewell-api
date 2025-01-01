@@ -25,7 +25,5 @@ services:
     run_command: ./bin/rails s -p 8080
     source_dir: /
     envs:
-      - key: DATABASE_URL
-        value: "${{ secrets.DATABASE_URL }}"
       - key: RAILS_ENV
         value: production
