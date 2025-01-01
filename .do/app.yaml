@@ -10,7 +10,7 @@ ingress:
       match:
         path:
           prefix: /
-name: livewell
+name: lionfish-app
 region: lon
 services:
   - environment_slug: ruby-on-rails
