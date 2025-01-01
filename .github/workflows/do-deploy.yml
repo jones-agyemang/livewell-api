@@ -28,12 +28,12 @@ jobs:
         gem install bundler
         bundle install
 
-    # Step 4: Setup database (if necessary)
+    # Step 4: Setup database
     - name: Setup database
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
-        RAILS_ENV=production bundle exec rake db:migrate
+        RAILS_ENV=production RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} bundle exec rake db:migrate
 
     # Step 5: Deploy the app using DigitalOcean
     - name: Deploy the app
