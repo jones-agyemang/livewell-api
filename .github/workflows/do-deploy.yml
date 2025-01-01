@@ -37,14 +37,21 @@ jobs:
         gem install bundler
         bundle install --path vendor/bundle
 
-    # Step 5: Setup database
+    # Step 5: Debug - Print RAILS_MASTER_KEY
+    - name: Print RAILS_MASTER_KEY
+      env:
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      run: |
+        echo "RAILS_MASTER_KEY: $RAILS_MASTER_KEY"
+
+    # Step 6: Setup database
     - name: Setup database
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
         RAILS_ENV=production bundle exec rake db:migrate
 
-    # Step 6: Deploy the app using DigitalOcean
+    # Step 7: Deploy the app using DigitalOcean
     - name: Deploy the app
       uses: digitalocean/app_action/deploy@v2
       with:
