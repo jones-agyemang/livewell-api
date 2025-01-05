@@ -24,7 +24,6 @@ region: lon
 services:
   # Service 1: livewell-api-2 (Docker-based service)
   - name: livewell-api-2
-    dockerfile_path: Dockerfile
     github:
       branch: main
       repo: jones-agyemang/livewell-api
