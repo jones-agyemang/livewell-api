@@ -30,3 +30,4 @@ production:
 
   cable:
     <<: *default
+    database: <%= ENV.fetch("CABLE_NAME_PRODUCTION") { "livewell-api-cable-prod" }
