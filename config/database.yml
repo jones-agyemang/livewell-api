@@ -27,7 +27,3 @@ production:
   username: <%= ENV.fetch("DB_USERNAME_PRODUCTION") { "postgres" } %>
   password: <%= ENV.fetch("DB_PASSWORD_PRODUCTION") { "postgres" } %>
   host: <%= ENV.fetch("DB_HOST_PRODUCTION") { "localhost" } %>
-
-  cable:
-    <<: *default
-    database: <%= ENV.fetch("CABLE_NAME_PRODUCTION") { "livewell-api-cable-prod" }
