@@ -31,7 +31,7 @@ services:
     value: production
   - key: RAILS_MASTER_KEY
     scope: RUN_AND_BUILD_TIME
-    value: '{{  }}'
+    value: {{$RAILS_MASTER_KEY}}
   github:
     branch: main
     repo: jones-agyemang/livewell-api
