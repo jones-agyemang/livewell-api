@@ -39,4 +39,4 @@ services:
       - key: RAILS_ENV
         value: production
       - key: RAILS_MASTER_KEY
-        value: {{ $RAILS_MASTER_KEY }}
+        value: {{$RAILS_MASTER_KEY}}
