@@ -16,10 +16,7 @@ ingress:
       cors:
         allow_origins:
           - exact: https://jellyfish-app-7zc9e.ondigitalocean.app
-          - regex: >
-              ^(https?:\/\/)?
-              ([a-zA-Z0-9-]+\.)+
-              ondigitalocean\.app\/?$
+          - regex: "^(https?:\\/\\/)?([a-zA-Z0-9-]+\\.)+ondigitalocean\\.app\\/?$"
         allow_methods:
           - GET
           - POST
