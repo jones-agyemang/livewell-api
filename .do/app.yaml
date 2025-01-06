@@ -27,9 +27,10 @@ services:
     github:
       branch: main
       repo: jones-agyemang/livewell-api
-    http_port: 80
+    http_port: 8080
     instance_count: 1
     instance_size_slug: apps-s-1vcpu-1gb
+    run_command: ./bin/rails s -p 8080
     source_dir: /
     envs:
       - key: RAILS_ENV
@@ -38,19 +39,19 @@ services:
         value: "{{ $RAILS_MASTER_KEY }}"
 
   # Service 2: livewell-api (Ruby-on-Rails stack)
-  - name: livewell-api
-    environment_slug: ruby-on-rails
-    github:
-      branch: main
-      deploy_on_push: true
-      repo: jones-agyemang/livewell-api
-    http_port: 8080 # Matches the Rails server command
-    instance_count: 1
-    instance_size_slug: apps-s-1vcpu-1gb
-    run_command: rails server -p $PORT -e ${RAILS_ENV:-production}
-    source_dir: /
-    envs:
-      - key: RAILS_ENV
-        value: production
-      - key: RAILS_MASTER_KEY
-        value: "{{ $RAILS_MASTER_KEY }}"
+  # - name: livewell-api
+  #   environment_slug: ruby-on-rails
+  #   github:
+  #     branch: main
+  #     deploy_on_push: true
+  #     repo: jones-agyemang/livewell-api
+  #   http_port: 8080 # Matches the Rails server command
+  #   instance_count: 1
+  #   instance_size_slug: apps-s-1vcpu-1gb
+  #   run_command: rails server -p 8080 -e ${RAILS_ENV:-production}
+  #   source_dir: /
+  #   envs:
+  #     - key: RAILS_ENV
+  #       value: production
+  #     - key: RAILS_MASTER_KEY
+  #       value: "{{ $RAILS_MASTER_KEY }}"
