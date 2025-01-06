@@ -12,6 +12,15 @@ ingress:
       match:
         path:
           prefix: /
+      cors:
+        allow_origins:
+          - exact: https://jellyfish-app-7zc9e.ondigitalocean.app
+            regex: ^(https?:\/\/)?([a-zA-Z0-9-]+\.)+ondigitalocean\.app\/?$
+        allow_methods: ["GET", "POST"]
+        allow_headers: ["Authorization"]
+        expose_headers: ["Authorization"]
+        max_age: 5h30m
+        allow_credentials: true
     - component:
         name: livewell-api-2
       match:
