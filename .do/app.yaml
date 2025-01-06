@@ -21,18 +21,12 @@ ingress:
         expose_headers: ["Authorization"]
         max_age: 5h30m
         allow_credentials: true
-    - component:
-        name: livewell-api-2
-      match:
-        path:
-          prefix: /livewell-api-2
 
 name: lionfish-app
 region: lon
 
 services:
-  # Service 1: livewell-api-2 (Docker-based service)
-  - name: livewell-api-2
+  - name: livewell-api
     github:
       branch: main
       repo: jones-agyemang/livewell-api
@@ -46,21 +40,3 @@ services:
         value: production
       - key: RAILS_MASTER_KEY
         value: "{{ $RAILS_MASTER_KEY }}"
-
-  # Service 2: livewell-api (Ruby-on-Rails stack)
-  # - name: livewell-api
-  #   environment_slug: ruby-on-rails
-  #   github:
-  #     branch: main
-  #     deploy_on_push: true
-  #     repo: jones-agyemang/livewell-api
-  #   http_port: 8080 # Matches the Rails server command
-  #   instance_count: 1
-  #   instance_size_slug: apps-s-1vcpu-1gb
-  #   run_command: rails server -p 8080 -e ${RAILS_ENV:-production}
-  #   source_dir: /
-  #   envs:
-  #     - key: RAILS_ENV
-  #       value: production
-  #     - key: RAILS_MASTER_KEY
-  #       value: "{{ $RAILS_MASTER_KEY }}"
