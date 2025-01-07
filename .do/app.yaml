@@ -1,43 +1,45 @@
+---
 alerts:
-- rule: DEPLOYMENT_FAILED
-- rule: DOMAIN_FAILED
+ - rule: DEPLOYMENT_FAILED
+ - rule: DOMAIN_FAILED
 features:
-- buildpack-stack=ubuntu-22
+ - buildpack-stack=ubuntu-22
 ingress:
-  rules:
+ rules:
   - component:
-      name: livewell-api
+     name: livewell-api
+    match:
+     path:
+      prefix: /
     cors:
-      allow_credentials: true
-      allow_headers:
-      - Authorization
-      allow_methods:
+     allow_origins:
+      - regex: "^(https?:\\/\\/)?([a-zA-Z0-9-]+\\.)+ondigitalocean\\.app\\/?$"
+     allow_methods:
       - GET
       - POST
-      allow_origins:
-      - regex: ^(https?:\/\/)?([a-zA-Z0-9-]+\.)+ondigitalocean\.app\/?$
-      expose_headers:
+     allow_headers:
       - Authorization
-      max_age: 5h30m
-    match:
-      path:
-        prefix: /
+     expose_headers:
+      - Authorization
+     max_age: 5h30m
+     allow_credentials: true
+
 name: lionfish-app
 region: lon
+
 services:
-- envs:
-  - key: RAILS_ENV
-    scope: RUN_AND_BUILD_TIME
-    value: production
-  - key: RAILS_MASTER_KEY
-    scope: RUN_AND_BUILD_TIME
-    value: {{$RAILS_MASTER_KEY}}
-  github:
-    branch: main
-    repo: jones-agyemang/livewell-api
-  http_port: 8080
-  instance_count: 1
-  instance_size_slug: apps-s-1vcpu-1gb
-  name: livewell-api
-  run_command: ./bin/rails s -p 8080
-  source_dir: /
+ - name: livewell-api
+   github:
+     branch: main
+     repo: jones-agyemang/livewell-api
+   http_port: 8080
+   instance_count: 1
+   instance_size_slug: apps-s-1vcpu-1gb
+   run_command: ./bin/rails s -p 8080
+   source_dir: /
+   envs:
+    - key: RAILS_ENV
+      value: production
+    - key: RAILS_MASTER_KEY
+      value: "{{$RAILS_MASTER_KEY}}"
+
